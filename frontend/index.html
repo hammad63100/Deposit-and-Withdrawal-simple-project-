@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KarnaWallet | Dashboard</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/5.7.2/ethers.umd.min.js"></script>
+    <script src="config.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo-area">
+                <i class="fa-brands fa-ethereum fa-2x brand-icon"></i>
+                <h2>Karna<span class="highlight">Wallet</span></h2>
+            </div>
+            
+            <nav class="nav-links">
+                <a href="#" class="active"><i class="fa-solid fa-house"></i> Dashboard</a>
+                <a href="#" onclick="showToast('History Feature Coming Soon')"><i class="fa-solid fa-clock-rotate-left"></i> History</a>
+                <a href="#" onclick="showToast('Settings Coming Soon')"><i class="fa-solid fa-gear"></i> Settings</a>
+            </nav>
+
+            <div class="connection-status">
+                <div class="status-indicator" id="statusDot"></div>
+                <span id="statusText">Disconnected</span>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            
+            <!-- Header -->
+            <header class="top-bar">
+                <div class="welcome-text">
+                    <h1>Overview</h1>
+                    <p class="subtitle">Manage your crypto assets securely.</p>
+                </div>
+                
+                <div class="auth-area">
+                    <div id="accountDisplay" class="account-pill hidden">
+                        <i class="fa-solid fa-circle-user"></i>
+                        <span id="userAddress">0x...</span>
+                    </div>
+                    <button id="connectBtn" class="btn-primary">
+                        Connect Wallet
+                    </button>
+                </div>
+            </header>
+
+            <!-- Dashboard Grid -->
+            <div class="dashboard-grid">
+                
+                <!-- Cards -->
+                <div class="card balance-card">
+                    <div class="card-header">
+                        <h3>Your Balance</h3>
+                        <i class="fa-solid fa-wallet opacity-50"></i>
+                    </div>
+                    <div class="card-body">
+                        <h2 id="userBalance">0.00</h2>
+                        <span class="unit">ETH</span>
+                        <div class="comparison">
+                            <i class="fa-solid fa-arrow-trend-up"></i>
+                            <span>Deposited Funds</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card contract-card">
+                    <div class="card-header">
+                        <h3>Total Liquidity</h3>
+                        <i class="fa-solid fa-vault opacity-50"></i>
+                    </div>
+                    <div class="card-body">
+                        <h2 id="contractBalance">0.00</h2>
+                        <span class="unit">ETH</span>
+                        <div class="comparison">
+                            <i class="fa-solid fa-lock"></i>
+                            <span>Locked in Contract</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Operations -->
+                <div class="card operations-card">
+                    <h3>Quick Actions</h3>
+                    <div class="tabs">
+                        <button class="tab-btn active" onclick="switchTab('deposit')">Deposit</button>
+                        <button class="tab-btn" onclick="switchTab('withdraw')">Withdraw</button>
+                    </div>
+
+                    <div id="depositTab" class="tab-content active">
+                        <div class="input-group">
+                            <label>Amount to Deposit (ETH)</label>
+                            <input type="number" id="depositAmount" placeholder="0.00" step="0.01">
+                        </div>
+                        <button onclick="depositRPC()" class="btn-action deposit-btn">
+                            <i class="fa-solid fa-arrow-down"></i> Deposit
+                        </button>
+                    </div>
+
+                    <div id="withdrawTab" class="tab-content">
+                         <div class="input-group">
+                            <label>Amount to Withdraw (ETH)</label>
+                            <input type="number" id="withdrawAmount" placeholder="0.00" step="0.01">
+                        </div>
+                        <button onclick="withdrawRPC()" class="btn-action withdraw-btn">
+                            <i class="fa-solid fa-arrow-up"></i> Withdraw
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Owner Zone -->
+                <div class="card owner-card hidden" id="ownerZone">
+                    <div class="warning-header">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                        <h3>Admin Zone</h3>
+                    </div>
+                    <p>Emergency Withdraw All Funds</p>
+                    <div class="input-group">
+                         <input type="number" id="ownerAmount" placeholder="Amount ETH">
+                    </div>
+                    <button onclick="ownerWithdrawRPC()" class="btn-danger">
+                        EXECUTE WITHDRAW
+                    </button>
+                </div>
+
+            </div>
+
+            <!-- Recent Activity -->
+            <div class="activity-section card">
+                <h3>Recent Interactions</h3>
+                <ul id="activityLog" class="log-list">
+                    <li class="log-item empty-state">No interactions yet.</li>
+                </ul>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Notifications -->
+    <div id="toast" class="toast"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>
